@@ -97,6 +97,42 @@
 #hra-wrap .hra-cta.cr .hra-cttl{color:#8C7355;}
 #hra-wrap .hra-ctsub{font-size:0.74rem;color:#5C5C58;font-weight:300;line-height:1.5;display:block;}
 #hra-wrap .hra-foot{text-align:center;font-size:0.7rem;color:#9A9A94;margin-top:1.75rem;font-weight:300;line-height:1.6;}
+
+/* REMINDER BANNER */
+#hra-wrap .hra-reminder{display:flex;align-items:flex-start;gap:10px;background:#F5EFE6;border:1px solid #D4C4A8;border-radius:8px;padding:0.85rem 1rem;margin-bottom:1.25rem;font-size:0.8rem;color:#5C5C58;line-height:1.55;font-weight:300;}
+#hra-wrap .hra-reminder strong{font-weight:500;color:#2C2C2A;}
+#hra-wrap .hra-reminder-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+
+/* RETAKE + SHARE */
+#hra-wrap .hra-retake{background:#EEF3EE;border:1px solid #C5D4C6;border-radius:8px;padding:0.9rem 1rem;margin-bottom:0.75rem;}
+#hra-wrap .hra-retake-title{font-size:0.82rem;font-weight:500;color:#2C2C2A;margin-bottom:4px;}
+#hra-wrap .hra-retake-body{font-size:0.77rem;color:#5C5C58;line-height:1.55;font-weight:300;}
+#hra-wrap .hra-retake-body strong{font-weight:500;color:#2C2C2A;}
+#hra-wrap .hra-share{background:#F5EFE6;border:1px solid #D4C4A8;border-radius:8px;padding:0.9rem 1rem;margin-bottom:0.75rem;}
+#hra-wrap .hra-share-title{font-size:0.82rem;font-weight:500;color:#2C2C2A;margin-bottom:4px;}
+#hra-wrap .hra-share-body{font-size:0.77rem;color:#5C5C58;line-height:1.55;font-weight:300;margin-bottom:6px;}
+#hra-wrap .hra-share-link{font-size:0.77rem;color:#8C7355;font-weight:400;word-break:break-all;}
+
+/* SAVE BUTTONS */
+#hra-wrap .hra-save-row{display:flex;gap:10px;margin-bottom:1.25rem;}
+#hra-wrap .hra-save-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border-radius:8px;font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:400;cursor:pointer;transition:all 0.15s;}
+#hra-wrap .hra-save-btn.print{border:1px solid rgba(44,44,42,0.2);background:transparent;color:#5C5C58;}
+#hra-wrap .hra-save-btn.print:hover{border-color:#8A9E8C;color:#2C2C2A;background:#EEF3EE;}
+#hra-wrap .hra-save-btn.email{border:1px solid #C5D4C6;background:#EEF3EE;color:#3B6D11;}
+#hra-wrap .hra-save-btn.email:hover{background:#C5D4C6;}
+@media(max-width:400px){#hra-wrap .hra-save-row{flex-direction:column;}}
+
+/* PRINT STYLES */
+@media print {
+  body * { visibility: hidden; }
+  #hra-print-zone, #hra-print-zone * { visibility: visible; }
+  #hra-print-zone { position: absolute; left: 0; top: 0; width: 100%; padding: 2rem; }
+  .hra-save-row, .hra-ctas, .hra-prog, .hra-hero { display: none !important; }
+  #hra-wrap { max-width: 100%; padding: 0; }
+  .hra-bar-fill { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .hra-bar-status, .hra-pill, .sg, .sa, .sr, .hra-rstatus { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .hra-circle-fg { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
 </style>
 
 <div id="hra-wrap">
@@ -213,6 +249,13 @@ function showResults(){
   }
 
   document.getElementById('hra-main').innerHTML=
+    '<div id="hra-print-zone">'+
+
+    '<div class="hra-reminder">'+
+      '<span class="hra-reminder-icon">&#128203;</span>'+
+      '<span>Your results are ready! Use the <strong>Save as PDF</strong> or <strong>Email my results</strong> buttons at the bottom to keep a copy to share with your agent or lender.</span>'+
+    '</div>'+
+
     '<div class="hra-rhead">'+
       '<span class="hra-pill '+pc+'">'+r+'</span>'+
       '<h2>Your Readiness Snapshot</h2>'+
@@ -254,11 +297,32 @@ function showResults(){
     '<a class="hra-cta cm" href="https://edge.finlocker.com/pfm/registration/invite?key=cb3df57d-e147-4b59-a3ca-1df882d09d1c" target="_blank" rel="noopener"><span class="hra-ctico">&#127970;</span><span class="hra-cttl">Connect with a Mortgage Professional</span><span class="hra-ctsub">Start your financial readiness profile and explore your loan options.</span></a>'+
     '<a class="hra-cta cr" href="https://tally.so/r/XxoG5Y" target="_blank" rel="noopener"><span class="hra-ctico">&#127968;</span><span class="hra-cttl">Connect with a Real Estate Professional</span><span class="hra-ctsub">Work with an experienced agent who knows the North DFW market.</span></a>'+
     '</div></div>'+
-    '<p class="hra-foot">This assessment is for educational and informational purposes only and does not constitute real estate or mortgage advice or services. Always consult a licensed real estate professional or mortgage lender for guidance specific to your situation.</p>';
+
+    '<div class="hra-div"></div>'+
+    '<div class="hra-retake">'+
+      '<div class="hra-retake-left">'+
+        '<p class="hra-retake-title">&#128197; Set a 90-day check-in reminder</p>'+
+        '<p class="hra-retake-body">Your readiness changes as you save, improve your credit, and prepare. Come back and retake this assessment on <strong id="hra-90day"></strong> to track your progress.</p>'+
+      '</div>'+
+    '</div>'+
+    '<div class="hra-share">'+
+      '<p class="hra-share-title">&#128101; Who do you know that needs this assessment?</p>'+
+      '<p class="hra-share-body">Share this free tool with a friend or family member — it takes 2 minutes and could save them thousands.</p>'+
+      '<a class="hra-share-link" href="'+QUIZ_URL+'" target="_blank">'+QUIZ_URL+'</a>'+
+    '</div>'+
+    '<div class="hra-div"></div>'+
+    '<div class="hra-save-row">'+
+      '<button class="hra-save-btn print" onclick="hraApp.printResults()">&#128438; Save as PDF</button>'+
+      '<button class="hra-save-btn email" onclick="hraApp.emailResults()">&#9993; Email my results</button>'+
+    '</div>'+
+
+    '<p class="hra-foot">This assessment is for educational and informational purposes only and does not constitute real estate or mortgage advice or services. Always consult a licensed real estate professional or mortgage lender for guidance specific to your situation.</p>'+
+    '</div>';
 
   setTimeout(function(){
     var arc=document.getElementById('hra-arc');
     var numEl=document.getElementById('hra-pct-num');
+    var dayEl=document.getElementById('hra-90day');
     if(arc){arc.style.strokeDashoffset=offset;}
     if(numEl){
       var count=0;
@@ -268,10 +332,227 @@ function showResults(){
         numEl.textContent=count+'%';
       },18);
     }
+    if(dayEl){dayEl.textContent=get90DayDate();}
   },100);
 }
 
-window.hraApp={pick:pick,next:next,back:back};
+function buildEmailBody(readiness, pct, itemsHtml){
+  var lines=[];
+  lines.push('MY FIRST-TIME HOME READINESS RESULTS');
+  lines.push('=====================================');
+  lines.push('Overall Score: '+pct+'% — '+readiness);
+  lines.push('');
+  lines.push('AREA BY AREA BREAKDOWN');
+  lines.push('----------------------');
+  var catOrder=['credit','savings','employment','mortgage','timeline','search','knowledge','urgency'];
+  for(var ci=0;ci<catOrder.length;ci++){
+    var cat=catOrder[ci];
+    var qi=-1;
+    for(var qi2=0;qi2<questions.length;qi2++){if(questions[qi2].cat===cat){qi=qi2;break;}}
+    if(qi<0||!ans[qi])continue;
+    var fb=getFb(cat,ans[qi].pts);
+    var icon=fb.s==='g'?'[OK]':fb.s==='a'?'[~]':'[!]';
+    lines.push(icon+' '+ins[cat].lb+': '+fb.t);
+    lines.push('    '+fb.d);
+    lines.push('');
+  }
+  lines.push('-------------------------------------');
+  lines.push('When ready to take the next step:');
+  lines.push('Mortgage Professional: https://edge.finlocker.com/pfm/registration/invite?key=cb3df57d-e147-4b59-a3ca-1df882d09d1c');
+  lines.push('Real Estate Professional: https://tally.so/r/XxoG5Y');
+  lines.push('');
+  lines.push('This assessment is for educational purposes only and does not constitute real estate or mortgage advice.');
+  return lines.join('\n');
+}
+
+var QUIZ_URL='https://homebuyerreadiness.carrd.co';
+
+function makeQR(url,size){
+  var s=size||80;
+  var encoded=encodeURIComponent(url);
+  return '<img src="https://api.qrserver.com/v1/create-qr-code/?size='+s+'x'+s+'&data='+encoded+'" width="'+s+'" height="'+s+'" style="display:block;" />';
+}
+
+function printResults(){
+  var total=0;for(var k in ans){total+=ans[k].pts;}
+  var ratio=total/(questions.length*4),pct=Math.round(ratio*100);
+  var r=ratio>=0.75?'Ready to Begin':ratio>=0.45?'Building Readiness':'Early Stage';
+  var pillBg=ratio>=0.75?'#EAF3DE':ratio>=0.45?'#FAEEDA':'#F5EFE6';
+  var pillClr=ratio>=0.75?'#3B6D11':ratio>=0.45?'#854F0B':'#8C7355';
+  var catOrder=['credit','savings','employment','mortgage','timeline','search','knowledge','urgency'];
+  var rows='';
+  for(var ci=0;ci<catOrder.length;ci++){
+    var cat=catOrder[ci],qi=-1;
+    for(var qi2=0;qi2<questions.length;qi2++){if(questions[qi2].cat===cat){qi=qi2;break;}}
+    if(qi<0||!ans[qi])continue;
+    var fb=getFb(cat,ans[qi].pts);
+    var dot=fb.s==='g'?'&#10003;':fb.s==='a'?'~':'!';
+    var sc=fb.s==='g'?'#3B6D11':fb.s==='a'?'#854F0B':'#A32D2D';
+    var bg=fb.s==='g'?'#EAF3DE':fb.s==='a'?'#FAEEDA':'#FCEBEB';
+    rows+='<tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;vertical-align:top;width:24px;">'+
+      '<span style="display:inline-flex;width:18px;height:18px;border-radius:50%;background:'+bg+';color:'+sc+';font-size:10px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;">'+dot+'</span></td>'+
+      '<td style="padding:8px 0 8px 10px;border-bottom:1px solid #f0f0f0;">'+
+      '<strong style="font-size:13px;color:#2C2C2A;font-family:Jost,sans-serif;">'+ins[cat].lb+': '+fb.t+'</strong><br>'+
+      '<span style="font-size:11.5px;color:#5C5C58;line-height:1.5;">'+fb.d+'</span></td></tr>';
+  }
+  var mortgageURL='https://edge.finlocker.com/pfm/registration/invite?key=cb3df57d-e147-4b59-a3ca-1df882d09d1c';
+  var realtorURL='https://tally.so/r/XxoG5Y';
+  var win=window.open('','_blank','width=700,height=900');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>My Home Readiness Results</title>'+
+    '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">'+
+    '<style>'+
+    '*{box-sizing:border-box;margin:0;padding:0;}'+
+    'body{font-family:Jost,sans-serif;color:#2C2C2A;max-width:620px;margin:36px auto;padding:0 24px 48px;}'+
+    'h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:28px;margin-bottom:6px;line-height:1.2;}'+
+    '.eyebrow{font-size:10px;color:#9A9A94;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;font-weight:400;}'+
+    '.pill{display:inline-block;padding:3px 14px;border-radius:99px;font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:18px;}'+
+    '.score-box{text-align:center;border:1px solid #eee;border-radius:12px;padding:22px;margin-bottom:20px;}'+
+    '.score-num{font-family:"Cormorant Garamond",serif;font-size:56px;font-weight:500;color:#2C2C2A;line-height:1;}'+
+    '.score-lbl{font-size:10px;color:#9A9A94;letter-spacing:0.08em;text-transform:uppercase;margin-top:5px;}'+
+    '.section-lbl{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9A9A94;font-weight:500;margin:20px 0 10px;}'+
+    'table{width:100%;border-collapse:collapse;}'+
+    '.next-steps{margin-top:24px;border:1px solid #eee;border-radius:12px;padding:18px;}'+
+    '.next-steps h2{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:500;margin-bottom:14px;color:#2C2C2A;}'+
+    '.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}'+
+    '.cta-box{border:1px solid #eee;border-radius:10px;padding:14px;text-align:center;}'+
+    '.cta-box.green{border-color:#C5D4C6;background:#F4F9F4;}'+
+    '.cta-box.warm{border-color:#D4C4A8;background:#FAF6EF;}'+
+    '.cta-lbl{font-size:11px;font-weight:500;color:#2C2C2A;margin-bottom:6px;display:block;}'+
+    '.cta-link{font-size:9.5px;color:#5C5C58;word-break:break-all;display:block;margin-bottom:8px;text-decoration:underline;color:#3B6D11;}'+
+    '.retake{border-top:1px solid #eee;padding-top:16px;margin-top:4px;}'+
+    '.retake-grid{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;}'+
+    '.share-box{border:1px solid #C5D4C6;background:#F4F9F4;border-radius:10px;padding:14px;margin-top:14px;text-align:center;}'+
+    '.foot{font-size:9.5px;color:#9A9A94;margin-top:20px;line-height:1.6;border-top:1px solid #eee;padding-top:12px;}'+
+    '.date-line{font-size:10px;color:#9A9A94;margin-top:6px;}'+
+    '@media print{.no-print{display:none!important;}}'+
+    '</style></head><body>'+
+    '<p class="eyebrow">First-Time Home Readiness Assessment</p>'+
+    '<h1>Your Readiness Snapshot</h1>'+
+    '<span class="pill" style="background:'+pillBg+';color:'+pillClr+';">'+r+'</span>'+
+    '<div class="score-box">'+
+      '<div class="score-num">'+pct+'%</div>'+
+      '<div class="score-lbl">Overall readiness score</div>'+
+      '<div class="date-line">Completed: '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+'</div>'+
+    '</div>'+
+    '<p class="section-lbl">Area by area breakdown</p>'+
+    '<table>'+rows+'</table>'+
+    '<div class="next-steps">'+
+      '<h2>When you\'re ready to take the next step</h2>'+
+      '<div class="cta-grid">'+
+        '<div class="cta-box green">'+
+          '<span class="cta-lbl">&#127970; Connect with a Mortgage Professional</span>'+
+          '<a class="cta-link" href="'+mortgageURL+'">'+mortgageURL+'</a>'+
+          makeQR(mortgageURL,72)+
+        '</div>'+
+        '<div class="cta-box warm">'+
+          '<span class="cta-lbl">&#127968; Connect with a Real Estate Professional</span>'+
+          '<a class="cta-link" href="'+realtorURL+'">'+realtorURL+'</a>'+
+          makeQR(realtorURL,72)+
+        '</div>'+
+      '</div>'+
+      '<div class="retake">'+
+        '<div class="retake-grid">'+
+          '<div>'+
+            '<p style="font-size:12px;font-weight:500;color:#2C2C2A;margin-bottom:4px;">&#128197; Retake this assessment in 90 days</p>'+
+            '<p style="font-size:11px;color:#5C5C58;line-height:1.5;">Your readiness changes as you save, improve credit, and prepare. Reassess on <strong>'+get90DayDate()+'</strong> to track your progress.</p>'+
+            '<a href="'+QUIZ_URL+'" style="font-size:11px;color:#3B6D11;display:block;margin-top:6px;">'+QUIZ_URL+'</a>'+
+          '</div>'+
+          '<div>'+makeQR(QUIZ_URL,72)+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="share-box">'+
+        '<p style="font-size:12px;font-weight:500;color:#2C2C2A;margin-bottom:4px;">&#128101; Who do you know that needs this assessment?</p>'+
+        '<p style="font-size:11px;color:#5C5C58;margin-bottom:8px;">Share this free assessment with a friend or family member.</p>'+
+        '<a href="'+QUIZ_URL+'" style="font-size:11px;color:#3B6D11;">'+QUIZ_URL+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="foot">This assessment is for educational and informational purposes only and does not constitute real estate or mortgage advice or services. Always consult a licensed real estate professional or mortgage lender for guidance specific to your situation.</div>'+
+    '<br><button class="no-print" onclick="window.print()" style="padding:10px 24px;background:#8A9E8C;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:Jost,sans-serif;margin-top:8px;">Print / Save as PDF</button>'+
+    '</body></html>');
+  win.document.close();
+}
+
+function get90DayDate(){
+  var d=new Date();d.setDate(d.getDate()+90);
+  return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+}
+
+function emailResults(){
+  var total=0;for(var k in ans){total+=ans[k].pts;}
+  var ratio=total/(questions.length*4),pct=Math.round(ratio*100);
+  var r=ratio>=0.75?'Ready to Begin':ratio>=0.45?'Building Readiness':'Early Stage';
+  var catOrder=['credit','savings','employment','mortgage','timeline','search','knowledge','urgency'];
+  var lines=[];
+  lines.push('MY FIRST-TIME HOME READINESS RESULTS');
+  lines.push('=====================================');
+  lines.push('Overall Score: '+pct+'% — '+r);
+  lines.push('Completed: '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));
+  lines.push('');
+  lines.push('AREA BY AREA BREAKDOWN');
+  lines.push('----------------------');
+  for(var ci=0;ci<catOrder.length;ci++){
+    var cat=catOrder[ci],qi=-1;
+    for(var qi2=0;qi2<questions.length;qi2++){if(questions[qi2].cat===cat){qi=qi2;break;}}
+    if(qi<0||!ans[qi])continue;
+    var fb=getFb(cat,ans[qi].pts);
+    var icon=fb.s==='g'?'[OK]':fb.s==='a'?'[~]':'[!]';
+    lines.push(icon+' '+ins[cat].lb+': '+fb.t);
+    lines.push('    '+fb.d);
+    lines.push('');
+  }
+  lines.push('-------------------------------------');
+  lines.push('WHEN YOU\'RE READY TO TAKE THE NEXT STEP');
+  lines.push('');
+  lines.push('Mortgage Professional:');
+  lines.push('https://edge.finlocker.com/pfm/registration/invite?key=cb3df57d-e147-4b59-a3ca-1df882d09d1c');
+  lines.push('');
+  lines.push('Real Estate Professional:');
+  lines.push('https://tally.so/r/XxoG5Y');
+  lines.push('');
+  lines.push('-------------------------------------');
+  lines.push('RETAKE THIS ASSESSMENT IN 90 DAYS');
+  lines.push('');
+  lines.push('Your readiness grows as you save, build credit, and prepare.');
+  lines.push('Set a reminder to reassess on: '+get90DayDate());
+  lines.push('');
+  lines.push('Retake the quiz here: '+QUIZ_URL);
+  lines.push('');
+  lines.push('-------------------------------------');
+  lines.push('WHO DO YOU KNOW THAT NEEDS THIS ASSESSMENT?');
+  lines.push('');
+  lines.push('Share this free assessment with a friend or family member:');
+  lines.push(QUIZ_URL);
+  lines.push('');
+  lines.push('-------------------------------------');
+  lines.push('This assessment is for educational purposes only and does not constitute real estate or mortgage advice.');
+  var body=lines.join('\n');
+  var subject='My Home Readiness Score: '+pct+'% — '+r;
+  var win=window.open('','_blank','width=640,height=780');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Email Preview</title>'+
+    '<style>'+
+    '*{box-sizing:border-box;margin:0;padding:0;}'+
+    'body{font-family:Arial,sans-serif;max-width:600px;margin:28px auto;padding:0 20px;color:#2C2C2A;}'+
+    '.label{font-size:11px;color:#9A9A94;margin-bottom:10px;letter-spacing:0.05em;}'+
+    '.subj-box{background:#EEF3EE;border:1px solid #C5D4C6;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:13px;color:#2C2C2A;}'+
+    '.subj-box span{color:#5C5C58;font-size:12px;}'+
+    'pre{background:#F9F9F7;border:1px solid #eee;border-radius:8px;padding:16px;font-size:12px;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;color:#2C2C2A;max-height:380px;overflow-y:auto;}'+
+    '.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}'+
+    'button{padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:Arial,sans-serif;}'+
+    '.send{background:#8A9E8C;color:white;border:none;}'+
+    '.copy{background:transparent;color:#5C5C58;border:1px solid #ccc;}'+
+    '</style></head><body>'+
+    '<p class="label">Email preview — this is exactly what will be sent</p>'+
+    '<div class="subj-box"><span>Subject: </span><strong>'+subject+'</strong></div>'+
+    '<pre id="eb">'+body+'</pre>'+
+    '<div class="btns">'+
+    '<button class="send" onclick="window.location.href=\'mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)+'\'">&#9993; Open in Email App</button>'+
+    '<button class="copy" onclick="var t=document.getElementById(\'eb\');if(navigator.clipboard){navigator.clipboard.writeText(t.innerText);this.textContent=\'Copied!\';}">Copy to Clipboard</button>'+
+    '</div>'+
+    '</body></html>');
+  win.document.close();
+}
+
+window.hraApp={pick:pick,next:next,back:back,printResults:printResults,emailResults:emailResults};
 render(0);
 })();
 </script>
